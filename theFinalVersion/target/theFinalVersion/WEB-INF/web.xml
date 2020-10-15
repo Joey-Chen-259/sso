@@ -14,7 +14,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginUIServlet</servlet-name>
-    <url-pattern>/Login</url-pattern>
+    <url-pattern>/Servlet/Login</url-pattern>
   </servlet-mapping>
 
   <servlet>

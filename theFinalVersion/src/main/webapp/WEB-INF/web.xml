@@ -26,4 +26,35 @@
     <url-pattern>/ssoServer</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>identify</servlet-name>
+    <servlet-class>Serverlet.identifyCenter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>identify</servlet-name>
+    <url-pattern>/identify</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>loginDone</servlet-name>
+    <servlet-class>Serverlet.loginDone</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>loginDone</servlet-name>
+    <url-pattern>/LoginDone</url-pattern>
+  </servlet-mapping>
+
+
+  <filter>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>Filter.SessionFilter</filter-class>
+    <init-param>
+      <param-name>passUrl</param-name>
+      <param-value>Login;</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/LoginDone</url-pattern>
+  </filter-mapping>
 </web-app>

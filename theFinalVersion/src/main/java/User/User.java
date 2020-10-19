@@ -1,5 +1,5 @@
 package User;
-
+import java.sql.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,7 +8,8 @@ import java.util.Date;
  * 用户实体类
  */
 public class User implements Serializable {
-
+    Connection c = null;
+    Statement stmt = null;
     private static final long serialVersionUID = -4313782718477229465L;
 
     // 用户ID
@@ -20,13 +21,44 @@ public class User implements Serializable {
     // 用户邮箱
 
 
-    public String getId() {
+    public String getId(int IDInput) {
+
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public boolean checkLogin(int id,String pwd){
+        int ID;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:/Users/lasuerte/Desktop/sso/theFinalVersion/User.db");
+            c.setAutoCommit(false);
+            System.out.println("Opened database successfully");
+
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM User" );
+            System.out.println("Change database successfully");
+            while ( rs.next() ) {
+
+                ID = rs.getInt("ID");
+                String password = rs.getString("PASSWORD");
+                if(ID == id && pwd.equals(password)){
+                    rs.close();
+                    stmt.close();
+                    c.close();
+                    System.out.println("密码正确");
+                    return true;
+                }
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return false;
     }
+
 
     public String getUserName() {
         return userName;

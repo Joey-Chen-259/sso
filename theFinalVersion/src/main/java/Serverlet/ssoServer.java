@@ -1,4 +1,5 @@
 package Serverlet;
+import User.User;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
@@ -10,41 +11,49 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ssoServer extends HttpServlet{
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //获取用户填写的登录用户名
+        User user = new User();
         String username = request.getParameter("username");
         //获取用户填写的登录密码
         String password = request.getParameter("password");
         JedisPoolConfig config = new JedisPoolConfig();
         JedisPool jedisPool = new JedisPool(config,"localhost",6379);
         Jedis jedis = jedisPool.getResource();
+        System.out.println(username);
+        System.out.println(password);
 
 
 
-        if(username != null && password != null &&username.equals("12") && password.equals("12")){
+        if(password!=null && user.checkLogin(Integer.parseInt(username),password)){
             request.getSession().setAttribute("sign","yes");
             request.getSession().setAttribute("userName", username);
             request.getSession().setAttribute("password", password);
             String token = username + password;
             request.getSession().setAttribute("tokenSession",token);
-            jedis.set("tokenId", "1212");
+            jedis.set("tokenId", username+password);
             jedis.expire("tokenId",1800);
 
             Cookie cookie = new Cookie("token",token);
             cookie.setMaxAge(360);
             cookie.setPath("/");
             response.addCookie(cookie);
-
+            System.out.println("密码通过");
             request.getSession().setAttribute("isVerify","yes");
 //               RequestDispatcher dispatcher = request.getRequestDispatcher("/Login");
 //                dispatcher.forward(request, response);
             response.sendRedirect("/Login");
 
-                return;
+            return;
 
         }else{
             if(request.getSession().getAttribute("verifyToken")!=null && request.getSession().getAttribute("verifyToken").equals(jedis.get("tokenId"))){

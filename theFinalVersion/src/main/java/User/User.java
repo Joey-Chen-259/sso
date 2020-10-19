@@ -21,9 +21,36 @@ public class User implements Serializable {
     // 用户邮箱
 
 
-    public String getId(int IDInput) {
+    public String getPassword(String IDInput) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:/Users/lasuerte/Desktop/sso/theFinalVersion/User.db");
+            c.setAutoCommit(false);
+            System.out.println("Opened database successfully");
 
-        return id;
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM User" );
+            System.out.println("Change database successfully2");
+            while ( rs.next() ) {
+
+                int ID = rs.getInt("ID");
+                String password = rs.getString("PASSWORD");
+                if(ID == Integer.parseInt(IDInput)){
+                    rs.close();
+                    stmt.close();
+                    c.close();
+                    return password;
+                }
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+
+        return null;
     }
 
     public boolean checkLogin(int id,String pwd){

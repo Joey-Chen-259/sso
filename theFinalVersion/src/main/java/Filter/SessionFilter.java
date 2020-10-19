@@ -51,12 +51,12 @@ public class SessionFilter implements Filter {
 //                return;
 //            }
 //        }
-        if  (String.valueOf(session.getAttribute( "login" )).equals("yes")) {
+        if  (String.valueOf(session.getAttribute( "login1" )).equals("yes")) {
             chain.doFilter(request, response);
             return ;
         }
         //跳转至sso认证中心
-        res.sendRedirect( "/Login" );
+        res.sendRedirect( "/app1/Login" );
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {

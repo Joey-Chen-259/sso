@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lasuerte
-  Date: 2020/10/15
-  Time: 3:42 下午
+  Date: 2020/10/19
+  Time: 11:24 下午
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-    success
+success2
 </body>
 </html>

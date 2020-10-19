@@ -14,7 +14,16 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginUIServlet</servlet-name>
-    <url-pattern>/Login</url-pattern>
+    <url-pattern>/app1/Login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>LoginUIServlet2</servlet-name>
+    <servlet-class>Serverlet.loginServlet2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginUIServlet2</servlet-name>
+    <url-pattern>/app2/Login</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -41,7 +50,16 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>loginDone</servlet-name>
-    <url-pattern>/LoginDone</url-pattern>
+    <url-pattern>/app1/LoginDone</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>loginDone2</servlet-name>
+    <servlet-class>Serverlet.loginDone2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>loginDone2</servlet-name>
+    <url-pattern>/app2/LoginDone</url-pattern>
   </servlet-mapping>
 
 
@@ -55,6 +73,7 @@
   </filter>
   <filter-mapping>
     <filter-name>loginFilter</filter-name>
-    <url-pattern>/LoginDone</url-pattern>
+    <url-pattern>/app1/LoginDone</url-pattern>
+    <url-pattern>/app2/LoginDone</url-pattern>
   </filter-mapping>
 </web-app>

@@ -13,7 +13,7 @@ public class JwtToken {
 
     public static String createToken(String username,String password){
         long now = System.currentTimeMillis();//当前时间
-        long exp = now + 1000*600;//过期时间为1分钟
+        long exp = now + 1000*1800;//过期时间为1分钟
         JwtBuilder builder= Jwts.builder().setId(UUID.randomUUID().toString())
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -43,7 +43,7 @@ public class JwtToken {
         String[] theToken = token.split("[+]");
 
         User user = new User();
-        System.out.println();
+
         token = theToken[0];
         String username = theToken[1];
         System.out.println(token);
@@ -51,16 +51,24 @@ public class JwtToken {
         String password = user.getPassword(username);
 
         //得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                //设置签名的秘钥
-                .setSigningKey(password)
-                //设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
-        System.out.println(claims);
-        //System.out.println(claims.get("password"));
-        if (claims.getSubject().equals(username)) {
-            return true;
+        try{
+            Claims claims = Jwts.parser()
+                    //设置签名的秘钥
+                    .setSigningKey(password)
+                    //设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+            if (claims.getSubject().equals(username)) {
+                System.out.println("这里是正确的");
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println("这里是错误的");
+            return false;
         }
+
+//        System.out.println(claims);
+        //System.out.println(claims.get("password"));
+
         return false;
     }
 

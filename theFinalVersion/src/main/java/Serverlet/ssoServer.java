@@ -24,62 +24,96 @@ import java.sql.Statement;
 
 public class ssoServer extends HttpServlet{
 
+    JedisPoolConfig config = new JedisPoolConfig();
+    JedisPool jedisPool = new JedisPool(config,"localhost",6379);
+    Jedis jedis = jedisPool.getResource();
+    Jedis jedisUrl = jedisPool.getResource();
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //获取用户填写的登录用户名
         User user = new User();
+
         String username = request.getParameter("username");
         //获取用户填写的登录密码
         String password = request.getParameter("password");
-        JedisPoolConfig config = new JedisPoolConfig();
-        JedisPool jedisPool = new JedisPool(config,"localhost",6379);
-        Jedis jedis = jedisPool.getResource();
+
         //System.out.println(username);
         //System.out.println(password);
 
+        if(jedis.exists("tokenId") && request.getSession().getAttribute("verifyToken")==null){
 
-
-        if(password!=null && user.checkLogin(Integer.parseInt(username),password)){
-            request.getSession().setAttribute("sign","yes");
-            request.getSession().setAttribute("userName", username);
-            request.getSession().setAttribute("password", password);
-            //request.getSession().setAttribute("tokenSession",token);
-            String token = JwtToken.createToken(username,password) + "+" + username;
-
-            jedis.set("tokenId", token);
-            jedis.expire("tokenId",1800);
-
-
-            Cookie cookie = new Cookie("token",token);
+            System.out.println("已经检测到了token");
+            Cookie cookie = new Cookie("token",jedis.get("tokenId"));
             cookie.setMaxAge(360);
-            cookie.setPath("/");
+            cookie.setPath("/" + request.getSession().getAttribute("theUrl").toString());
             response.addCookie(cookie);
-            //System.out.println("密码通过");
-
             request.getSession().setAttribute("isVerify","yes");
-//               RequestDispatcher dispatcher = request.getRequestDispatcher("/Login");
-//                dispatcher.forward(request, response);
-            response.sendRedirect("/Login");
 
-            return;
+            response.sendRedirect("/" + request.getSession().getAttribute("theUrl").toString() + "/Login");
 
         }else{
+            if((!jedis.exists("tokenId") &&request.getSession().getAttribute("theJps")!=null &&request.getSession().getAttribute("theUrl")!=null&&request.getSession().getAttribute("theJps")!="") || (request.getSession().getAttribute("signForExpire")!=null&&request.getSession().getAttribute("signForExpire").equals("yes"))){
 
-            if(request.getSession().getAttribute("verifyToken")!=null && JwtToken.isVerify(request.getSession().getAttribute("verifyToken").toString())){
-                request.getSession().setAttribute("pass","yes");
-                request.getSession().setAttribute("sign","yes");
-                response.sendRedirect("/Login");
-                return;
+                //String url = request.getSession().getAttribute("theJps").toString();
+                request.getSession().setAttribute("theJps","");
+
+                Cookie cookie = new Cookie("theUrl",request.getSession().getAttribute("theUrl").toString());
+                cookie.setMaxAge(360);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+
+                request.getSession().setAttribute("signForExpire",null);
+
+                System.out.println("准备进去页面");
+                request.getRequestDispatcher("/WEB-INF/pages/loginPage.jsp").forward(request, response);
             }else{
-                String message = String.format(
-                        "对不起，用户名或密码有误！！请重新登录！2秒后为您自动跳到登录页面！！<meta http-equiv='refresh' content='2;url=%s'",
-                        request.getContextPath()+"/servlet/LoginUIServlet");
-                request.setAttribute("message",message);
-                request.getSession().setAttribute("sign","no");
-                response.sendRedirect("/Login");
-                return;
+                if(password!=null && user.checkLogin(Integer.parseInt(username),password)){
+                    request.getSession().setAttribute("sign","yes");
+                    request.getSession().setAttribute("userName", username);
+                    request.getSession().setAttribute("password", password);
+                    //request.getSession().setAttribute("tokenSession",token);
+                    String token = JwtToken.createToken(username,password) + "+" + username;
+
+                    jedis.set("tokenId", token);
+                    jedis.expire("tokenId",1800);
+
+                    Cookie cookie = new Cookie("token",token);
+                    cookie.setMaxAge(360);
+                    cookie.setPath("/" + request.getSession().getAttribute("theUrl").toString());
+                    response.addCookie(cookie);
+                    //System.out.println("密码通过");
+
+                    request.getSession().setAttribute("isVerify","yes");
+//               RequestDispatcher dispatcher = request.getRequestDispatcher("/Login");
+//                dispatcher.forward(request, response);
+                    response.sendRedirect("/" + request.getSession().getAttribute("theUrl").toString() + "/Login");
+                    return;
+
+                }else{
+
+                    if(request.getSession().getAttribute("verifyToken")!=null && JwtToken.isVerify(request.getSession().getAttribute("verifyToken").toString())){
+                        System.out.println("----------");
+                        request.getSession().setAttribute("pass","yes");
+                        request.getSession().setAttribute("sign","yes");
+                        request.getSession().setAttribute("verifyToken",null);
+                        response.sendRedirect("/" + request.getSession().getAttribute("theUrl").toString() + "/Login");
+                        return;
+                    }else{
+                        String message = String.format(
+                                "对不起，用户名或密码有误！！请重新登录！2秒后为您自动跳到登录页面！！<meta http-equiv='refresh' content='2;url=%s'",
+                                request.getContextPath()+"/servlet/LoginUIServlet");
+                        request.setAttribute("message",message);
+                        request.getSession().setAttribute("sign","no");
+                        response.sendRedirect("/" + request.getSession().getAttribute("theUrl").toString() + "/Login");
+                        return;
+                    }
+                }
             }
         }
+
+
+
+
 
     }
 

@@ -34,23 +34,25 @@ public class loginServerlet extends HttpServlet {
 
 
         if(login.equals("yes")){
+            System.out.println("---显示已经存在局部会话，不用验证token---");
             response.sendRedirect("/app1/LoginDone");
         }else{
             if(request.getSession().getAttribute("pass")!=null && request.getSession().getAttribute("pass").equals("yes")){
                 request.getSession().setAttribute("login1","yes");
+                System.out.println("---这里设置cookie（局部会话）---");
 
                 Cookie cookie2 = new Cookie("login","yes");
                 cookie2.setMaxAge(60);
                 cookie2.setPath("/app1");
                 response.addCookie(cookie2);
-                //request.getSession().setAttribute("pass",null);
+                request.getSession().setAttribute("pass",null);
 
                 HttpSession session = request.getSession();
                 session.setMaxInactiveInterval(60);
                 response.sendRedirect("/app1/Login");
             }else{
                 if((!token.equals("")) && !(request.getSession().getAttribute("sign")!=null && request.getSession().getAttribute("sign").equals("no"))){
-                    System.out.println("这里是测试3");
+                    System.out.println("---这里是去验证token---");
                     Cookie cookie2 = new Cookie("test3","test3");
                     cookie2.setMaxAge(60);
                     cookie2.setPath("/app1");

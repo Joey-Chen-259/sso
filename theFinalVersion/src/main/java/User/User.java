@@ -26,11 +26,11 @@ public class User implements Serializable {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:/Users/lasuerte/Desktop/sso/theFinalVersion/User.db");
             c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+            //System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery( "SELECT * FROM User" );
-            System.out.println("Change database successfully2");
+            //System.out.println("Change database successfully2");
             while ( rs.next() ) {
 
                 int ID = rs.getInt("ID");
@@ -59,11 +59,11 @@ public class User implements Serializable {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:/Users/lasuerte/Desktop/sso/theFinalVersion/User.db");
             c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+            //System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery( "SELECT * FROM User" );
-            System.out.println("Change database successfully");
+            //System.out.println("Change database successfully");
             while ( rs.next() ) {
 
                 ID = rs.getInt("ID");

@@ -38,16 +38,16 @@ public class JwtToken {
 
     public static Boolean isVerify(String token) {
         //签名秘钥，和生成的签名的秘钥一模一样
-        System.out.println("This is the token");
-        System.out.println(token);
+        //System.out.println("This is the token");
+        //System.out.println(token);
         String[] theToken = token.split("[+]");
 
         User user = new User();
 
         token = theToken[0];
         String username = theToken[1];
-        System.out.println(token);
-        System.out.println(username);
+        //System.out.println(token);
+        //System.out.println(username);
         String password = user.getPassword(username);
 
         //得到DefaultJwtParser
@@ -58,7 +58,7 @@ public class JwtToken {
                     //设置需要解析的jwt
                     .parseClaimsJws(token).getBody();
             if (claims.getSubject().equals(username)) {
-                System.out.println("这里是正确的");
+                //System.out.println("这里是正确的");
                 return true;
             }
         }catch (Exception e){

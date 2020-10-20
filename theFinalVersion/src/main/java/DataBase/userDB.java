@@ -11,7 +11,7 @@ public class userDB
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:User.db");
-            System.out.println("Opened database successfully");
+            //System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
             String sql = "CREATE TABLE User " +
@@ -26,6 +26,6 @@ public class userDB
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Table created successfully");
+        //System.out.println("Table created successfully");
     }
 }

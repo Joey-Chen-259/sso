@@ -4,19 +4,20 @@ import java.sql.*;
 
 public class UserInput
 {
-    public static void main( String args[] )
-    {
+
+    public static void add(int username, String password){
+
         Connection c = null;
         Statement stmt = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:User.db");
+            c = DriverManager.getConnection("jdbc:sqlite:/Users/lasuerte/Desktop/sso/theFinalVersion/User.db");
             c.setAutoCommit(false);
             System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
             String sql = "INSERT INTO User (ID,PASSWORD) " +
-                    "VALUES (1234, '1234');";
+                    "VALUES" + " ("+ username + "," + password+");";
             stmt.executeUpdate(sql);
 
             stmt.close();
@@ -28,4 +29,5 @@ public class UserInput
         }
         System.out.println("Records created successfully");
     }
+
 }

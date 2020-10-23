@@ -62,7 +62,7 @@ public class ssoServer extends HttpServlet{
                 response.addCookie(cookie3);
             }
 
-            response.sendRedirect("/app1/Login");
+            response.sendRedirect("/index.jsp");
 
             return;
         }
@@ -94,7 +94,7 @@ public class ssoServer extends HttpServlet{
                 System.out.println("准备进去页面");
                 request.getRequestDispatcher("/WEB-INF/pages/loginPage.jsp").forward(request, response);
             }else{
-                if(password!=null && user.checkLogin(Integer.parseInt(username),password)){
+                if(password!=null && username != null && user.checkLogin(Integer.parseInt(username),password)){
                     System.out.println("---这里是密码通过验证，设置token并返回---");
                     request.getSession().setAttribute("sign","yes");
                     request.getSession().setAttribute("userName", username);
@@ -143,10 +143,6 @@ public class ssoServer extends HttpServlet{
                 }
             }
         }
-
-
-
-
 
     }
 

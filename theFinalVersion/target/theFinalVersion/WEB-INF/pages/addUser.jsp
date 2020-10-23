@@ -20,11 +20,11 @@
 
     <p id="image_logo"><img src="${pageContext.request.contextPath}images/fly.png" ></p>
     已经存在用户名为1234，密码为1234的用户，可以使用该账户进行用户检测
-    <form action="${pageContext.request.contextPath }/ssoServer" method="post">
+    <form action="${pageContext.request.contextPath }/addUser" method="post">
 
         用户名：<input type="text" name="username"><br/>
         密码：<input type="password" name="password"><br/>
-        <input type="submit" value="登录">
+        <input type="submit" value="注册">
 
     </form>
 </div>

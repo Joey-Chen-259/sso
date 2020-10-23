@@ -14,6 +14,8 @@ public class JwtToken {
     public static String createToken(String username,String password){
         long now = System.currentTimeMillis();//当前时间
         long exp = now + 1000*1800;//过期时间为1分钟
+        System.out.println(username);
+        System.out.println(password);
         JwtBuilder builder= Jwts.builder().setId(UUID.randomUUID().toString())
                 .setSubject(username)
                 .setIssuedAt(new Date())

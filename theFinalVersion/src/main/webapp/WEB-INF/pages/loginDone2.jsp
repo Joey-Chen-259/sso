@@ -8,14 +8,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>注销页面</title>
+
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/logout.css"/>
 </head>
 <body>
-这是app2的登陆完成界面
-<form action="${pageContext.request.contextPath }/logout" method="post">
-    用户名：<input type="text" name="username"><br/>
-    密码：<input type="password" name="password"><br/>
-    <input type="submit" value="注销">
-</form>
+
+
+<div id="logout_frame">
+
+    <p id="image_logo"><img src="${pageContext.request.contextPath}/images/fly.png"></p>
+
+    <form action="${pageContext.request.contextPath }/logout" method="post">
+
+        <p><label class="text_field">您已成功登录,这是app2登陆完成页面</label></p>
+
+        <div id="logout_control">
+            <input type="submit" value="注销">
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

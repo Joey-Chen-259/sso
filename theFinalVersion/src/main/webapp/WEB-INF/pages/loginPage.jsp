@@ -9,17 +9,25 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>用户登陆</title>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}css/login.css"/>
 </head>
 
 <body>
-<form action="${pageContext.request.contextPath }/ssoServer" method="post">
-    用户名：<input type="text" name="username"><br/>
-    密码：<input type="password" name="password"><br/>
-    <input type="submit" value="登陆">
-</form>
+<div id="login_frame">
 
+    <p id="image_logo"><img src="${pageContext.request.contextPath}images/fly.png" ></p>
+    已经存在用户名为1234，密码为1234的用户，可以使用该账户进行用户检测
+    <form action="${pageContext.request.contextPath }/ssoServer" method="post">
 
+        用户名：<input type="text" name="username"><br/>
+        密码：<input type="password" name="password"><br/>
+        <input type="submit" value="登录">
+
+    </form>
+</div>
 
 </body>
 </html>

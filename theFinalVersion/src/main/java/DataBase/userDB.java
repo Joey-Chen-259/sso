@@ -10,7 +10,8 @@ public class userDB
         Statement stmt = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:User.db");
+            c = DriverManager.getConnection("jdbc:sqlite:/Users/lasuerte/Desktop/sso/theFinalVersion/User.db");
+            c.setAutoCommit(false);
             //System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
@@ -23,6 +24,7 @@ public class userDB
             stmt.close();
             c.close();
         } catch ( Exception e ) {
+
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }

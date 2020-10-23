@@ -72,6 +72,33 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>addUser</servlet-name>
+    <servlet-class>Serverlet.addUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addUser</servlet-name>
+    <url-pattern>/addUser</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>index</servlet-name>
+    <servlet-class>Serverlet.toIndex</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>toAddUser</servlet-name>
+    <servlet-class>Serverlet.toAddUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>toAddUser</servlet-name>
+    <url-pattern>/toAddUser</url-pattern>
+  </servlet-mapping>
+
   <filter>
     <filter-name>loginFilter</filter-name>
     <filter-class>Filter.SessionFilter</filter-class>
